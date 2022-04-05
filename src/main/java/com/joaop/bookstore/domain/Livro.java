@@ -1,5 +1,7 @@
 package com.joaop.bookstore.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,6 +18,7 @@ public class Livro implements Serializable {
     private String nome_autor;
     private String texto;
 
+    @JsonIgnore // proteção contra serialização
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
