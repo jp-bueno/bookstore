@@ -1,6 +1,6 @@
 package com.joaop.bookstore.config;
 
-import com.joaop.bookstore.service.DBService;
+import com.joaop.bookstore.services.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +13,9 @@ public class TestConfig {
     @Autowired
     private DBService dbService;
 
-    // quando startar e o test estiver ativo, irá subir esse método
     @Bean
-    public void instanciaBaseDeDados() {
+    //indica que um método produz um bean a ser gerenciado pelo contêiner do Spring
+    public void instaciaBaseDeDados() {
         this.dbService.instanciaBaseDeDados();
     }
 }
