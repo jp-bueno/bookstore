@@ -1,6 +1,7 @@
 package com.joaop.bookstore.resouces;
 
 import com.joaop.bookstore.domain.Categoria;
+import com.joaop.bookstore.dtos.CategoriaDTO;
 import com.joaop.bookstore.services.CategoriaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -20,5 +25,15 @@ public class CategoriaResources {
     public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
         Categoria obj = services.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    //AQUI IRÁ RETORNAR TODAS AS CATEGORIAS, MAS SEM SEUS LIVROS
+    @GetMapping
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        List<Categoria> list = services.findAll();
+        List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        // transformei uma lista de categioa para uma lista de categoriaDTO
+
+        return ResponseEntity.ok().body(listDTO);
     }
 }
