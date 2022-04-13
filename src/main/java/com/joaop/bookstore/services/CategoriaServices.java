@@ -1,6 +1,7 @@
 package com.joaop.bookstore.services;
 
 import com.joaop.bookstore.domain.Categoria;
+import com.joaop.bookstore.dtos.CategoriaDTO;
 import com.joaop.bookstore.repository.CategoriaRepository;
 import com.joaop.bookstore.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,20 @@ public class CategoriaServices {
     // retornar uma lista de categorias.
     public List<Categoria> findAll( ){
         return repository.findAll();
+    }
+
+    // Criar uma categoria nova
+    public Categoria create(Categoria obj) {
+        obj.setId(null);
+        return repository.save(obj);
+    }
+
+    //Put
+    public Categoria update(Integer id, CategoriaDTO objDto) {
+        Categoria obj = findById(id);
+        obj.setNome(obj.getNome());
+        obj.setDescricao(obj.getDescricao());
+        return repository.save(obj);
+
     }
 }
