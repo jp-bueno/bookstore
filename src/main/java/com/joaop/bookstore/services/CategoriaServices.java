@@ -3,10 +3,10 @@ package com.joaop.bookstore.services;
 import com.joaop.bookstore.domain.Categoria;
 import com.joaop.bookstore.dtos.CategoriaDTO;
 import com.joaop.bookstore.repository.CategoriaRepository;
+import com.joaop.bookstore.services.exceptions.DataIntegrityViolationException;
 import com.joaop.bookstore.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +45,11 @@ public class CategoriaServices {
 
     public void delete(Integer id) {
         findById(id);
-        repository.deleteById(id);
+//        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Categoria não pode ser deleteda, possui livros associados");
+        }
     }
 }
