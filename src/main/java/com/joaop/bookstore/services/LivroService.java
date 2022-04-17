@@ -1,5 +1,6 @@
 package com.joaop.bookstore.services;
 
+import com.joaop.bookstore.domain.Categoria;
 import com.joaop.bookstore.domain.Livro;
 import com.joaop.bookstore.repository.LivroRepository;
 import com.joaop.bookstore.services.exceptions.ObjectNotFoundException;
@@ -40,5 +41,12 @@ public class LivroService {
         newObj.setTitulo(obj.getTitulo());
         newObj.setNome_autor(obj.getNome_autor());
         newObj.setTexto(obj.getTexto());
+    }
+
+    public Livro create(Integer id_cat, Livro obj) {
+        obj.setId(null);
+        Categoria cat = categoriaServices.findById(id_cat);
+        obj.setCategoria(cat);
+        return livroRepository.save(obj);
     }
 }
