@@ -8,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin("*") // nossos endpoint pode receber de diversas portas
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResources {
@@ -38,14 +39,14 @@ public class CategoriaResources {
 
     //CRIA UMA NOVA CATEGORIA E COMO O ID = NULL, NÃO IMMPORTA O ID QUE VOCÊ VAI COLOCAR ELE SEMPRE ESTARÁ CERTO
     @PostMapping
-    public ResponseEntity<Categoria> create(@RequestBody Categoria obj) {
+    public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria obj) {
         obj = services.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO objDto) {
+    public ResponseEntity<CategoriaDTO> update(@Valid @PathVariable Integer id, @RequestBody CategoriaDTO objDto) {
         Categoria newObj = services.update(id, objDto);
         return ResponseEntity.ok().body(new CategoriaDTO(newObj));
     }
